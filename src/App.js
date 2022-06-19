@@ -1,5 +1,7 @@
 import { Component } from "react";
 import "./App.css";
+import CardList from "./components/card-list/CardList";
+import SearchBox from "./components/search-box/SearchBox";
 
 class App extends Component {
   constructor() {
@@ -19,31 +21,32 @@ class App extends Component {
         })
       );
   }
+  onSearchChnage = (e) => {
+    const searchField = e.target.value.toLocaleLowerCase();
+    // setting the input field value in state
+    this.setState(() => {
+      return { searchField };
+    });
+  };
 
   render() {
+    const { monsters, searchField } = this.state;
+    const { onSearchChnage } = this;
     //this variable contains the filtered monsters according to the input values
-    const filteredMonsters = this.state.monsters.filter((monster) => {
-      return monster.name.toLocaleLowerCase().includes(this.state.searchField);
+    const filteredMonsters = monsters.filter((monster) => {
+      return monster.name.toLocaleLowerCase().includes(searchField);
     });
 
     return (
       <div className="App">
-        <input
+        <h1 className="app-title">Monsters Rolodex</h1>
+        <SearchBox
+          onChangeHandler={onSearchChnage}
+          placeholder="search monsters"
           className="search-box"
-          type="search"
-          placeholder="search monster"
-          onChange={(e) => {
-            const searchField = e.target.value.toLocaleLowerCase();
-            // setting the input field value in state
-            this.setState(() => {
-              return { searchField };
-            });
-          }}
         />
 
-        {filteredMonsters.map((monster) => (
-          <h1 key={monster.id}>{monster.name}</h1>
-        ))}
+        <CardList monsters={filteredMonsters} />
       </div>
     );
   }
