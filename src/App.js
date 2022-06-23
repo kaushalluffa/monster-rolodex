@@ -29,6 +29,8 @@ class App extends Component {
     });
   };
 
+  //rendering the elements
+
   render() {
     const { monsters, searchField } = this.state;
     const { onSearchChnage } = this;
@@ -36,6 +38,7 @@ class App extends Component {
     const filteredMonsters = monsters.filter((monster) => {
       return monster.name.toLocaleLowerCase().includes(searchField);
     });
+    //returnin the actual element 
 
     return (
       <div className="App">
